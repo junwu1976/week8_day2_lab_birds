@@ -19,11 +19,18 @@ export default {
 		'sighting': Sighting
 	},
 	mounted(){
-	this.fetchData();
-	
-	eventBus.$on('sighting-added', (sighting) => {
-		this.sightings.push(sighting)
-	})
+		this.fetchData();
+		
+		eventBus.$on('sighting-added', (sighting) => {
+			this.sightings.push(sighting)
+		})
+
+		eventBus.$on('sighting-deleted',(sighting) => {
+			const index = this.sightings.indexOf(sighting);
+			this.sightings.splice(index,1);
+			SightingService.deleteSighting(sighting._id)
+			.then(res => console.log(res));
+		})
 
 	},
 	
